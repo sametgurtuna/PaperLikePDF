@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PaperLike Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <main class="popup-container" aria-label="PaperLike settings">
+    <header class="popup-header">
+      <div class="logo-area">
+        <svg class="logo-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
+          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16v16H4z"></path>
+          <path d="M4 4l4 2v12l-4 2"></path>
+          <path d="M20 4l-4 2v12l4 2"></path>
+          <path d="M8 6h8"></path>
+          <path d="M8 10h8"></path>
+          <path d="M8 14h6"></path>
+        </svg>
+        <div>
+          <h1 class="popup-title">PaperLike</h1>
+          <p class="popup-subtitle">PDF Paper Texture</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="setting-row">
+      <label class="setting-label" for="toggle-enabled">
+        <span class="label-text">Enable Texture</span>
+        <span class="label-hint" id="status-text">Active</span>
+      </label>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-enabled">
+        <span class="toggle-slider"></span>
+      </label>
+    </section>
+
+    <hr class="divider">
+
+    <section class="setting-row book-mode-row dependent-control">
+      <label class="setting-label" for="toggle-bookmode">
+        <span class="label-text">📖 Book Mode</span>
+        <span class="label-hint">Flipbook with page turns</span>
+      </label>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-bookmode">
+        <span class="toggle-slider"></span>
+      </label>
+    </section>
+
+    <hr class="divider">
+
+    <section class="setting-row vertical dependent-control">
+      <div class="setting-label-row">
+        <label class="setting-label" for="opacity-slider">
+          <span class="label-text">Opacity</span>
+        </label>
+        <output class="opacity-value" id="opacity-value" for="opacity-slider">15%</output>
+      </div>
+      <input type="range" id="opacity-slider" min="0" max="100" value="15" step="1" class="range-slider">
+    </section>
+
+    <hr class="divider">
+
+    <section class="setting-row dependent-control">
+      <label class="setting-label" for="texture-select">
+        <span class="label-text">Texture Style</span>
+      </label>
+      <select id="texture-select" class="styled-select">
+        <option value="classic">Classic Paper</option>
+        <option value="warm">Warm Yellow</option>
+        <option value="gray">Slight Gray</option>
+      </select>
+    </section>
+
+    <hr class="divider">
+
+    <section class="setting-row dependent-control">
+      <label class="setting-label" for="toggle-vignette">
+        <span class="label-text">Vignette Edges</span>
+        <span class="label-hint">Subtle edge shadow</span>
+      </label>
+      <label class="toggle-switch small">
+        <input type="checkbox" id="toggle-vignette">
+        <span class="toggle-slider"></span>
+      </label>
+    </section>
+
+    <hr class="divider">
+
+    <section class="setting-row dependent-control">
+      <label class="setting-label" for="color-mode-select">
+        <span class="label-text">Color Mode</span>
+        <span class="label-hint">Sepia warmth or night inversion</span>
+      </label>
+      <select id="color-mode-select" class="styled-select">
+        <option value="none">Normal</option>
+        <option value="sepia">Sepia</option>
+        <option value="night">Night</option>
+      </select>
+    </section>
+
+    <hr class="divider">
+
+    <section class="setting-row dependent-control">
+      <label class="setting-label" for="toggle-pagesound">
+        <span class="label-text">🔊 Page-Turn Sound</span>
+        <span class="label-hint">Soft paper rustle on flip</span>
+      </label>
+      <label class="toggle-switch small">
+        <input type="checkbox" id="toggle-pagesound">
+        <span class="toggle-slider"></span>
+      </label>
+    </section>
+
+    <hr class="divider">
+
+    <section class="setting-row dependent-control">
+      <label class="setting-label" for="toggle-vintage-hl">
+        <span class="label-text">Vintage Highlights</span>
+        <span class="label-hint">Amber search/selection tint</span>
+      </label>
+      <label class="toggle-switch small">
+        <input type="checkbox" id="toggle-vintage-hl">
+        <span class="toggle-slider"></span>
+      </label>
+    </section>
+
+    <hr class="divider">
+
+    <section class="setting-row dependent-control">
+      <label class="setting-label" for="toggle-autodark">
+        <span class="label-text">Auto-disable on Dark PDFs</span>
+        <span class="label-hint">Uses background luminance</span>
+      </label>
+      <label class="toggle-switch small">
+        <input type="checkbox" id="toggle-autodark">
+        <span class="toggle-slider"></span>
+      </label>
+    </section>
+
+    <footer class="popup-footer">
+      <span class="shortcut-hint">Shortcut: <kbd>Alt</kbd> + <kbd>P</kbd></span>
+    </footer>
+  </main>
+
+  <script src="shared.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>

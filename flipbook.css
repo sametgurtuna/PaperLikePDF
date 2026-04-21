@@ -1,0 +1,359 @@
+/* ============================================================
+   PaperLike Flipbook – Styles
+   Premium book reader with 3D page turn animations
+   ============================================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #1a140d;
+    color: #e8ddd0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('assets/desk.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* --- Loading --- */
+.fb-loading {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.fb-spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #c9a96e;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.fb-loading-text {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #a08c74;
+    letter-spacing: 0.5px;
+}
+
+/* --- Error --- */
+.fb-error {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    z-index: 100;
+}
+
+.fb-error-icon {
+    font-size: 48px;
+}
+
+.fb-error-text {
+    font-size: 14px;
+    color: #c9a96e;
+}
+
+/* --- Toolbar --- */
+.fb-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    background: rgba(20, 15, 10, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.fb-toolbar-center {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.fb-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e8ddd0;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    line-height: 1;
+}
+
+.fb-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.fb-btn:active {
+    transform: scale(0.95);
+}
+
+.fb-nav-btn {
+    font-size: 20px;
+    padding: 6px 16px;
+}
+
+.fb-close-btn {
+    font-size: 18px;
+    padding: 6px 12px;
+}
+
+.fb-fs-btn {
+    font-size: 18px;
+    padding: 6px 12px;
+}
+
+.fb-page-info {
+    font-size: 13px;
+    color: #a08c74;
+    min-width: 80px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.fb-page-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    min-width: 160px;
+}
+
+.fb-progress-text {
+    font-size: 11px;
+    color: #8b7a66;
+    letter-spacing: 0.2px;
+    font-variant-numeric: tabular-nums;
+}
+
+.fb-progress-track {
+    width: 140px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.fb-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #c9a96e, #e8c88a);
+    border-radius: 2px;
+    transition: width 260ms ease-out;
+}
+
+/* --- Viewport --- */
+.fb-viewport {
+    position: fixed;
+    top: 48px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 2500px;
+}
+
+/* --- Book --- */
+.fb-book {
+    position: relative;
+    display: flex;
+    transform-style: preserve-3d;
+}
+
+/* --- Pages --- */
+.fb-page {
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Texture overlay via ::before — controlled by --fb-tex-opacity */
+.fb-page::before,
+.fb-turn-face::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: var(--fb-tex-opacity, 0.15);
+    background-repeat: repeat;
+    background-size: 300px 300px;
+    transition: opacity 200ms ease;
+}
+
+.fb-page canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Texture Variants (class on #fb-book) ── */
+
+/* Classic Paper */
+.texture-classic .fb-page::before,
+.texture-classic .fb-turn-face::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='6' seed='1' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23faf3e8' surfaceScale='2.5' result='lit'%3E%3CfeDistantLight azimuth='135' elevation='50'/%3E%3C/feDiffuseLighting%3E%3CfeComposite operator='in' in='lit' in2='noise'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+
+/* Warm Yellowish */
+.texture-warm .fb-page::before,
+.texture-warm .fb-turn-face::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='6' seed='5' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23f0e4c8' surfaceScale='3' result='lit'%3E%3CfeDistantLight azimuth='120' elevation='45'/%3E%3C/feDiffuseLighting%3E%3CfeComposite operator='in' in='lit' in2='noise'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+
+/* Slight Gray */
+.texture-gray .fb-page::before,
+.texture-gray .fb-turn-face::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='5' seed='3' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23e8e6e2' surfaceScale='2' result='lit'%3E%3CfeDistantLight azimuth='145' elevation='55'/%3E%3C/feDiffuseLighting%3E%3CfeComposite operator='in' in='lit' in2='noise'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+
+.fb-left {
+    border-radius: 4px 0 0 4px;
+    /* Inner shadow for book spine */
+    box-shadow:
+        inset -15px 0 25px -15px rgba(0, 0, 0, 0.2),
+        0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.fb-right {
+    border-radius: 0 4px 4px 0;
+    box-shadow:
+        inset 15px 0 25px -15px rgba(0, 0, 0, 0.15),
+        0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.fb-page.fb-empty {
+    background: #f0ebe3;
+}
+
+/* --- Book Spine --- */
+.fb-spine {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    transform: translateX(-50%);
+    background: linear-gradient(to right,
+            rgba(0, 0, 0, 0.15),
+            rgba(0, 0, 0, 0.06) 30%,
+            rgba(0, 0, 0, 0.0) 50%,
+            rgba(0, 0, 0, 0.06) 70%,
+            rgba(0, 0, 0, 0.15));
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* --- Click/Drag Zones --- */
+.fb-click-zone {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    cursor: grab;
+    z-index: 5;
+}
+
+.fb-zone-left {
+    left: 0;
+    cursor: w-resize;
+}
+
+.fb-zone-right {
+    right: 0;
+    cursor: e-resize;
+}
+
+/* --- Page Turn (positioned by JS via inline styles) --- */
+.fb-turn {
+    will-change: transform;
+}
+
+.fb-turn-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    overflow: hidden;
+    background: #fff;
+}
+
+.fb-turn-face canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
+}
+
+.fb-turn-front {
+    z-index: 2;
+}
+
+.fb-turn-back {
+    transform: rotateY(180deg);
+    z-index: 1;
+}
+
+/* --- Under page (revealed during turn) --- */
+.fb-under {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 1;
+    border-radius: 4px 0 0 4px;
+}
+
+.fb-under canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .fb-book {
+        flex-direction: column;
+    }
+}

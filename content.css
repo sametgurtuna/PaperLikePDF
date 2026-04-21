@@ -1,0 +1,98 @@
+/* ============================================================
+   PaperLike – Content Overlay Styles
+   Paper texture overlay for PDF pages.
+   ============================================================ */
+
+/* --- Paper Texture Overlay --- */
+#paperlike-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 2147483646;
+  isolation: isolate;
+  mix-blend-mode: multiply;
+  opacity: var(--paperlike-opacity, 0.15);
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  will-change: opacity;
+  transition: opacity 160ms ease-in-out, visibility 160ms ease-in-out;
+}
+
+/* --- Vignette Layer --- */
+#paperlike-vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 2147483645;
+  isolation: isolate;
+  opacity: var(--paperlike-vignette-opacity, 0.30);
+  box-shadow: inset 0 0 150px 36px rgba(0, 0, 0, 0.08);
+  will-change: opacity;
+  transition: opacity 160ms ease-in-out, visibility 160ms ease-in-out;
+}
+
+/* --- Texture Presets (feDiffuseLighting for 3D paper grain) --- */
+
+/* Classic Paper */
+#paperlike-overlay.texture-classic {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='6' seed='1' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23faf3e8' surfaceScale='2.5' result='lit'%3E%3CfeDistantLight azimuth='135' elevation='50'/%3E%3C/feDiffuseLighting%3E%3CfeComposite operator='in' in='lit' in2='noise'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+
+/* Warm Yellowish */
+#paperlike-overlay.texture-warm {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='6' seed='5' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23f0e4c8' surfaceScale='3' result='lit'%3E%3CfeDistantLight azimuth='120' elevation='45'/%3E%3C/feDiffuseLighting%3E%3CfeComposite operator='in' in='lit' in2='noise'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+
+/* Slight Gray */
+#paperlike-overlay.texture-gray {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='5' seed='3' stitchTiles='stitch' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23e8e6e2' surfaceScale='2' result='lit'%3E%3CfeDistantLight azimuth='145' elevation='55'/%3E%3C/feDiffuseLighting%3E%3CfeComposite operator='in' in='lit' in2='noise'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+
+/* --- Hidden State --- */
+#paperlike-overlay.paperlike-hidden,
+#paperlike-vignette.paperlike-hidden {
+  opacity: 0 !important;
+  visibility: hidden;
+}
+
+/* --- Color Mode transitions (for filters applied via JS) --- */
+html,
+embed[type="application/pdf"],
+#viewer,
+#viewerContainer {
+  transition: filter 200ms ease-in-out;
+}
+
+/* --- Vintage Highlight Override ---
+   Applies to PDF.js-based viewers and embedded PDF pages that use
+   standard highlight/mark elements. Chrome's native PDF viewer renders
+   search highlights inside a closed shadow root and cannot be restyled.
+*/
+html.paperlike-vintage-hl ::selection {
+  background: #f4d06f !important;
+  color: #3a2a14 !important;
+}
+
+html.paperlike-vintage-hl mark,
+html.paperlike-vintage-hl .highlight,
+html.paperlike-vintage-hl .textHighlight,
+html.paperlike-vintage-hl .textLayer .highlight,
+html.paperlike-vintage-hl .textLayer .highlight.selected,
+html.paperlike-vintage-hl [data-highlight],
+html.paperlike-vintage-hl [class*="search-highlight"],
+html.paperlike-vintage-hl [class*="searchHighlight"] {
+  background-color: #f4d06f !important;
+  color: #3a2a14 !important;
+  box-shadow: 0 0 0 1px rgba(180, 130, 30, 0.35);
+  border-radius: 2px;
+}
+
+html.paperlike-vintage-hl .textLayer .highlight.selected {
+  background-color: #e8a93b !important;
+}

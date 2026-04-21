@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>PaperLike Reader</title>
+    <link rel="stylesheet" href="flipbook.css">
+</head>
+
+<body>
+    <div id="fb-app">
+        <!-- Loading Screen -->
+        <div id="fb-loading" class="fb-loading">
+            <div class="fb-spinner"></div>
+            <p class="fb-loading-text">Loading PDF...</p>
+        </div>
+
+        <!-- Error Screen -->
+        <div id="fb-error" class="fb-error" style="display:none;">
+            <p class="fb-error-icon">⚠️</p>
+            <p class="fb-error-text" id="fb-error-msg">Failed to load PDF</p>
+            <button id="fb-error-close" class="fb-btn">Close</button>
+        </div>
+
+        <!-- Toolbar -->
+        <div id="fb-toolbar" class="fb-toolbar" style="display:none;">
+            <button id="fb-close" class="fb-btn fb-close-btn" title="Back to PDF viewer">✕</button>
+            <div class="fb-toolbar-center">
+                <button id="fb-prev" class="fb-btn fb-nav-btn" title="Previous page">◂</button>
+                <div class="fb-page-block">
+                    <span id="fb-page-info" class="fb-page-info">1 / 1</span>
+                    <span id="fb-progress" class="fb-progress-text">0% · ~0m left</span>
+                    <div class="fb-progress-track"><div id="fb-progress-bar" class="fb-progress-bar"></div></div>
+                </div>
+                <button id="fb-next" class="fb-btn fb-nav-btn" title="Next page">▸</button>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+                <input type="color" id="fb-color-picker" value="#ff0000" style="display:none; width: 26px; height: 26px; border:none; border-radius:4px; cursor:pointer; background:transparent;" title="Pen Color">
+                <button id="fb-clear-btn" class="fb-btn" title="Clear Annotations" style="display:none; font-size:14px; padding:6px 8px;">🗑️</button>
+                <button id="fb-draw-btn" class="fb-btn" title="Toggle Draw Mode" style="font-size:14px; padding:6px 8px;">🖌️</button>
+                <button id="fb-fullscreen" class="fb-btn fb-fs-btn" title="Fullscreen">⛶</button>
+            </div>
+        </div>
+
+        <!-- Book Viewport -->
+        <div id="fb-viewport" class="fb-viewport" style="display:none;">
+            <div id="fb-book" class="fb-book">
+                <!-- Click zones -->
+                <div id="fb-zone-left" class="fb-click-zone fb-zone-left"></div>
+                <div id="fb-zone-right" class="fb-click-zone fb-zone-right"></div>
+
+                <!-- Static pages -->
+                <div id="fb-page-left" class="fb-page fb-left"></div>
+                <div id="fb-page-right" class="fb-page fb-right"></div>
+
+                <!-- Turning page (animated) -->
+                <div id="fb-turn" class="fb-turn" style="display:none;">
+                    <div id="fb-turn-front" class="fb-turn-face fb-turn-front"></div>
+                    <div id="fb-turn-back" class="fb-turn-face fb-turn-back"></div>
+                </div>
+
+                <!-- Under page (revealed during turn) -->
+                <div id="fb-under" class="fb-page fb-under" style="display:none;"></div>
+
+                <!-- Book spine shadow -->
+                <div class="fb-spine"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="shared.js"></script>
+    <script src="lib/pdf.min.js"></script>
+    <script src="flipbook.js"></script>
+</body>
+
+</html>
